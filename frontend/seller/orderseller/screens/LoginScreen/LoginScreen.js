@@ -8,6 +8,7 @@ import styles from "./styles";
 import axios from 'axios';
 import { UserContext } from "../../configs/ProjectContext";
 import theme from "../../assets/theme";
+import constants from "../../configs/constants"
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('sellercoop')
@@ -16,16 +17,18 @@ const LoginScreen = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  const login = async () => {
+    const login = async () => {
+    
+    
     axios
     
-      .get('http://10.0.2.2:49153/api/Tbluserleverantors/LoginLeverantor?email='+email+'&password='+password)
+      .get(`${constants.api}Tbluserleverantors/`+'LoginLeverantor?email='+email+'&password='+password)
       
       
       .then(response => {
         console.log('response', response);
-        //id = response.data.id;
-        //dispatch(actionsuser.addUser({ email, password, id }))
+        id = response.data.id;
+        dispatch(actionsuser.addUser({ email, password, id }))
       })
       .then(() => {
         AsyncStorage.getItem('currentUserCredentials').then((value) => {
@@ -40,10 +43,27 @@ const LoginScreen = ({ navigation }) => {
       })
       
       .catch(error => {
-        console.log(error.response)
-        //console.log(error.message);
+        console.log('error',error.response)
+        //console.log('error',error.message);
       });
-  }
+  }  
+  
+ /*  const login = () => {
+    
+    const options = {
+      method: 'GET',
+      url: 'https://192.168.0.206:45456/api/Tbluserleverantors/LoginLeverantor',
+      params: {email: 'sellercoop', password: '123456'},
+      headers: {'Content-Type': 'application/json'}
+      
+    };
+    
+    axios.request(options).then(function (response) {
+      console.log(response.data);
+    }).catch(function (error) {
+      console.error(error);
+    });
+  } */
 
   useEffect(() => {
     retrieveDataFromLocalStorage()

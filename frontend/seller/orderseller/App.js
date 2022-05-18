@@ -25,7 +25,7 @@ export default function App() {
 
             <AuthStackNavigation.Screen name="Login" component={LoginScreen} />
             <AuthStackNavigation.Screen name="Home" component={HomeScreen} options={({ navigation }) => ({
-              title: 'Hexa V2X',
+              title: 'Order - Seller',
               headerLeft: () => null,
               //HomeDrawer: DrawerNav,
             })} />

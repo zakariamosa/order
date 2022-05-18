@@ -13,6 +13,7 @@
           "Microsoft.EntityFrameworkCore.Tools": "6.0.4",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.14.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.3",
+          "Newtonsoft.Json": "13.0.1",
           "Swashbuckle.AspNetCore": "6.3.0"
         },
         "runtime": {
