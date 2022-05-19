@@ -26,13 +26,14 @@ namespace order.Model
         public virtual DbSet<Tblstore> Tblstores { get; set; } = null!;
         public virtual DbSet<Tbluserbestallare> Tbluserbestallares { get; set; } = null!;
         public virtual DbSet<Tbluserleverantor> Tbluserleverantors { get; set; } = null!;
+        public virtual DbSet<VuLeverantorItem> VuLeverantorItems { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=192.168.0.206\\SQLEXPRESS,49172;Initial Catalog=order;User Id=sa;Password=123;");
+                optionsBuilder.UseSqlServer("Server=192.168.0.206\\SQLEXPRESS,49172;Database=order;Initial Catalog=order;User Id=sa;Password=123;");
             }
         }
 
@@ -293,6 +294,26 @@ namespace order.Model
                 entity.Property(e => e.Password)
                     .HasMaxLength(50)
                     .HasColumnName("password");
+            });
+
+            modelBuilder.Entity<VuLeverantorItem>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("vuLeverantorItems");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Itemimage)
+                    .HasMaxLength(500)
+                    .HasColumnName("itemimage")
+                    .IsFixedLength();
+
+                entity.Property(e => e.Itemname)
+                    .HasMaxLength(300)
+                    .HasColumnName("itemname");
+
+                entity.Property(e => e.Userid).HasColumnName("userid");
             });
 
             OnModelCreatingPartial(modelBuilder);
