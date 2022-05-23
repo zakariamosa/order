@@ -11,5 +11,6 @@ namespace order.Controllers
         Task<ActionResult<IEnumerable<Tblitem>>> GetTblitems();
         Task<ActionResult<Tblitem>> PostTblitem(Tblitem tblitem);
         Task<IActionResult> PutTblitem(long id, Tblitem tblitem);
+        Task<IActionResult> AddProduct(string productName, int userid);
     }
 }

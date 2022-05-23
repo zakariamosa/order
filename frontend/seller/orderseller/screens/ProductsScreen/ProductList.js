@@ -4,9 +4,10 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Input, Button } from "react-native-elements";
 import constants from '../../configs/constants';
 import axios from 'axios';
-import {actionproduct} from '../../features/product'
+import {actionsproduct} from '../../features/product'
 import { useDispatch, useSelector } from "react-redux";
 import { UserContext } from '../../configs/ProjectContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const ProductList = ({ navigation }) => {
@@ -14,21 +15,45 @@ const ProductList = ({ navigation }) => {
   const dispatch = useDispatch();
   const getSavedProduct = useSelector(state => state.product);
   const { userInfo, setUserInfo } = useContext(UserContext)
-  useEffect(() => {
-    
-    axios.get(`${constants.api}Tblitems/GetLeverantorsItemList/`+userInfo.id)
+  const deleteProductFromAPI=(productid)=>{
+    console.log('this is the product id we want to delete from api', productid);
+    axios.delete(`${constants.api}Tblitems/`+productid)
             .then(response => {
               
-              console.log('this is the productlist: ', response);
-              dispatch(actionproduct.getproduct(response.data.tariffs))
-              setProduct(response.data.tariffs);
+              
             })
             .catch(error => {
-              console.log(error.response.request._response)
+              console.log('here',error.response.request._response)
               //console.log(error.message);
-
-
             });
+  }
+  useEffect(() => {
+    console.log('userInfo id: ', userInfo.id);
+    AsyncStorage.getItem('currentUserCredentials').then((value) => {
+      console.log(value);
+      var stringify = JSON.parse(value);
+      console.log('stringify', stringify);
+      if (stringify !== null && stringify !== '') {
+        console.log('stringified id', stringify.id);
+        console.log('endpoint', `${constants.api}Tblitems/GetLeverantorsItemList/`+stringify.id);
+        
+        axios.get(`${constants.api}Tblitems/GetLeverantorsItemList/`+stringify.id)
+            .then(response => {
+              
+              console.log('this is the productlist: ', response.data);
+              dispatch(actionsproduct.getproduct(response.data))
+              setProduct(response.data);
+            })
+            .catch(error => {
+              console.log('here',error.response.request._response)
+              //console.log(error.message);
+            });
+      }
+    }).then(res => {
+      //do something else
+      
+    });
+    
   }, []);
   useEffect(() => {
     
@@ -36,7 +61,7 @@ const ProductList = ({ navigation }) => {
             .then(response => {
               
               console.log('this is the tarifffffff: ', response.data.tariffs);
-              dispatch(actionproduct.gettariff(response.data.tariffs))
+              dispatch(actionsproduct.gettariff(response.data.tariffs))
               setProduct(response.data.tariffs);
             })
             .catch(error => {
@@ -52,7 +77,7 @@ const ProductList = ({ navigation }) => {
   return (
     <View>
       <Button
-                title="Add time period"
+                title="Add a product"
                 buttonStyle={{ backgroundColor: 'rgba(214, 61, 57, 1)' }}
                 containerStyle={{
                   height: 40,
@@ -62,14 +87,14 @@ const ProductList = ({ navigation }) => {
                 }}
                 titleStyle={{ color: 'white', marginHorizontal: 20 }}
                 onPress={() => {
-                  navigation.navigate('ProductTimePeriod')
+                  navigation.navigate('Product')
                 }}
                 />
-      <Text>This is the ProductList Screen</Text>
+      
       
       <ScrollView>
         <View>
-          {getSavedProduct.map((tariff) => {
+          {getSavedProduct.map((product) => {
             return (
               <View style={[{
                 width: "90%", height: 70, alignSelf: "center",
@@ -77,12 +102,12 @@ const ProductList = ({ navigation }) => {
                 flexDirection: "row"
               },
               styles.shadow]}>
-                <Text>{tariff.startTime}</Text>
-                <Text style={styles.dash}>-----</Text>
+                <Text>{product.itemname}</Text>
+                {/* <Text style={styles.dash}>-----</Text>
                 <Text>{tariff.endTime}</Text>
                 <Text style={styles.dash}>-----</Text>
                 <Text>{tariff.tariffValue} kw/h</Text>
-                <Text style={styles.dash}>-----</Text>
+                <Text style={styles.dash}>-----</Text> */}
                 <Button 
                 title="X"
                 buttonStyle={{ backgroundColor: 'rgba(214, 61, 57, 1)' }}
@@ -95,70 +120,16 @@ const ProductList = ({ navigation }) => {
                 }}
                 titleStyle={{ color: 'white', marginHorizontal: 20 }}
                 onPress={()=>{
-                  console.log('this tariff id: ', tariff.id)
-                  dispatch(actionproduct.deletetariff({"id": tariff.id}));
+                  console.log('this product id: ', product.id)
+                  deleteProductFromAPI(product.id);
+                  dispatch(actionsproduct.deleteproduct({"id": product.id}));
                 }}/>
               </View>
             );
           })}
         </View>
       </ScrollView>
-      {/* <View style={styles.period}>
-          <TextInput>00:00:00</TextInput>
-          <Text style={styles.dash}>-----</Text>
-          <TextInput>06:59:59</TextInput>
-          <TextInput>15 kw/h</TextInput>
-      </View>
-      <View style={styles.period}>
-          <TextInput>07:00:00</TextInput>
-          <Text style={styles.dash}>-----</Text>
-          <TextInput>18:59:59</TextInput>
-          <TextInput>125 kw/h</TextInput>
-      </View>
-      <View style={styles.period}>
-          <TextInput>19:00:00</TextInput>
-          <Text style={styles.dash}>-----</Text>
-          <TextInput>23:59:59</TextInput>
-          <TextInput>93 kw/h</TextInput>
-      </View> */}
-      <Button
-                title="Add Product"
-                buttonStyle={{ backgroundColor: 'rgba(214, 61, 57, 1)' }}
-                containerStyle={{
-                  height: 40,
-                  width: 200,
-                  marginHorizontal: 50,
-                  marginVertical: 10,
-                }}
-                titleStyle={{ color: 'white', marginHorizontal: 20 }}
-                onPress={() => {
-                  //get the redux array save it in a new array called mychangesarray
-                  //delete the old tariff saved in the api
-                  //add my changesarray to api
-                  console.log("Context: ", userInfo)
-                  console.log('response1: ', getSavedProduct);
-                  axios.post(`${constants.api}MainHubs/UpdateTariffs?id=`+userInfo.mainhubId, getSavedProduct)
-                  .then(response => {
-                    console.log('response2: ', response);
-                    
-                    //console.log('this is the tarifffffff: ', response.data.tariffs);
-                    dispatch(actionproduct.gettariff(response.data.tariffs))
-                    setProduct(response.data.tariffs);
-                  })
-                  .catch(error => {
-                    console.log(error.response.request._response)
-                    //console.log(error.message);
       
-      
-                  });
-
-
-
-
-
-                  navigation.goBack();
-                }}
-                />
     </View>
   );
  

@@ -94,6 +94,26 @@ namespace order.Controllers
 
             return CreatedAtAction("GetTblitem", new { id = tblitem.Id }, tblitem);
         }
+        
+        //add product
+        [HttpPost("AddProduct")]
+        public async Task<IActionResult> AddProduct(string productName, int userid)
+        {
+            if (_context.Tblitems == null)
+            {
+                return Problem("Entity set 'orderContext.Tblitems'  is null.");
+            }
+            var paramList = new[] {
+    new Microsoft.Data.SqlClient.SqlParameter("@itemname", productName),
+    new Microsoft.Data.SqlClient.SqlParameter("@userId", userid)
+};
+
+            
+            int n = _context.Database.ExecuteSqlRaw("EXEC proInsertNewItem @itemname, @userId", paramList);
+            //_context.Database.ExecuteSqlInterpolatedAsync($"EXECUTE  dbo.proInsertNewItem @itemname={productName}, @userId={userid}");
+
+            return NoContent();
+        }
 
         // DELETE: api/Tblitems/5
         [HttpDelete("{id}")]

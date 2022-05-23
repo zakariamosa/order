@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { rootReducer } from './features/rootReducer';
 import { ProjectContextProvider } from "./configs/ProjectContext";
 import HomeScreen from "./screens/Home";
+import Product from './screens/ProductsScreen/Product';
 
 
 
@@ -29,7 +30,7 @@ export default function App() {
               headerLeft: () => null,
               //HomeDrawer: DrawerNav,
             })} />
-          
+          <AuthStackNavigation.Screen name="Product" component={Product} />
             </AuthStackNavigation.Navigator>
         </NavigationContainer>
       </Provider>
