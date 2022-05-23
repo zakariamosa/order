@@ -8,13 +8,14 @@ import {actionsproduct} from '../../features/product'
 import { useDispatch, useSelector } from "react-redux";
 import { UserContext } from '../../configs/ProjectContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { useFocusEffect } from '@react-navigation/native';
 
 const ProductList = ({ navigation }) => {
   const [product, setProduct]=useState([{}])
   const dispatch = useDispatch();
   const getSavedProduct = useSelector(state => state.product);
   const { userInfo, setUserInfo } = useContext(UserContext)
+  
   const deleteProductFromAPI=(productid)=>{
     console.log('this is the product id we want to delete from api', productid);
     axios.delete(`${constants.api}Tblitems/`+productid)
@@ -27,7 +28,7 @@ const ProductList = ({ navigation }) => {
               //console.log(error.message);
             });
   }
-  useEffect(() => {
+ /*  useEffect(() => {
     console.log('userInfo id: ', userInfo.id);
     AsyncStorage.getItem('currentUserCredentials').then((value) => {
       console.log(value);
@@ -54,7 +55,35 @@ const ProductList = ({ navigation }) => {
       
     });
     
-  }, []);
+  }, []); */
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('MMMMMMMMMMMMMMMMMMMMMMMMMMMMM'); 
+      AsyncStorage.getItem('currentUserCredentials').then((value) => {
+        
+        var stringify = JSON.parse(value);
+        console.log('stringify', stringify);
+        if (stringify !== null && stringify !== '') {
+         
+          
+          axios.get(`${constants.api}Tblitems/GetLeverantorsItemList/`+stringify.id)
+              .then(response => {
+                
+                
+                
+                setProduct(response.data);
+              })
+              .catch(error => {
+                console.log('here',error.response.request._response)
+                //console.log(error.message);
+              });
+        }
+      }).then(res => {
+        //do something else
+        
+      });
+    }, [getSavedProduct])
+  );
   useEffect(() => {
     
     /* axios.get(`${constants.api}MainHubs/1`)
@@ -97,7 +126,7 @@ const ProductList = ({ navigation }) => {
           {getSavedProduct.map((product) => {
             return (
               <View style={[{
-                width: "90%", height: 70, alignSelf: "center",
+                width: "90%", height: 40, alignSelf: "center",
                 marginVertical: 5, backgroundColor: "white", borderRadius: 10, padding: 10,
                 flexDirection: "row"
               },

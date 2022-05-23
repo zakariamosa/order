@@ -49,7 +49,7 @@ const TarifferTimePeriod = ({navigation}) => {
               //add this to the db
               axios.post(`${constants.api}Tblitems`+'/AddProduct?productName='+productName+'&userid='+userid)
             .then(response => {
-              
+              dispatch(actionsproduct.addproduct({"id": 0,itemname:productName }));
               
             })
             .catch(error => {
