@@ -1,27 +1,27 @@
 import {createAction, createReducer} from '@reduxjs/toolkit';
-const getproduct = createAction('get product');
-const addproduct = createAction('add product');
-const deleteproduct = createAction('delete product');
+const getstore = createAction('get store');
+const addstore = createAction('add store');
+const deletestore = createAction('delete store');
 
 
-const actionsproduct = {
-    getproduct,
-    addproduct,
-    deleteproduct
+const actionsstore = {
+    getstore,
+    addstore,
+    deletestore
 };
 
-const product = [
+const store = [
 
 ];
 
-const productreducer = createReducer(product, {
+const storereducer = createReducer(store, {
   
-  [getproduct]: (state, action) => {
+  [getstore]: (state, action) => {
     
     
     return action.payload;
   },
-  [addproduct]: (state, action) => {
+  [addstore]: (state, action) => {
     
     console.log('state: ',state)
     if(action.payload.id==0){
@@ -33,7 +33,7 @@ const productreducer = createReducer(product, {
     
     return [...state, action.payload];
   },
-  [deleteproduct]: (state, action) => {
+  [deletestore]: (state, action) => {
     
    
     
@@ -44,4 +44,4 @@ const productreducer = createReducer(product, {
   },
 });
 
-export {actionsproduct, productreducer};
+export {actionsstore, storereducer};

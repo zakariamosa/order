@@ -9,7 +9,8 @@ import { Provider } from 'react-redux';
 import { rootReducer } from './features/rootReducer';
 import { ProjectContextProvider } from "./configs/ProjectContext";
 import HomeScreen from "./screens/Home";
-import Product from './screens/ProductsScreen/Product';
+import StoreList from './screens/StoresScreen/StoreList';
+import Store from './screens/StoresScreen/Store';
 
 
 
@@ -26,11 +27,12 @@ export default function App() {
 
             <AuthStackNavigation.Screen name="Login" component={LoginScreen} />
             <AuthStackNavigation.Screen name="Home" component={HomeScreen} options={({ navigation }) => ({
-              title: 'Order - Seller',
+              title: 'Order - Buyer',
               headerLeft: () => null,
               //HomeDrawer: DrawerNav,
             })} />
-          <AuthStackNavigation.Screen name="Product" component={Product} />
+          <AuthStackNavigation.Screen name="StoreList" component={StoreList} />
+          <AuthStackNavigation.Screen name="Store" component={Store} />
             </AuthStackNavigation.Navigator>
         </NavigationContainer>
       </Provider>

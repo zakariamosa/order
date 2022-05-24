@@ -11,8 +11,8 @@ import theme from "../../assets/theme";
 import constants from "../../configs/constants"
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('sellercoop')
-  const [password, setPassword] = useState('123456')
+  const [email, setEmail] = useState('zakaria@order.se')
+  const [password, setPassword] = useState('123')
   const { userInfo, setUserInfo } = useContext(UserContext)
 
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const LoginScreen = ({ navigation }) => {
     
     axios
     
-      .get(`${constants.api}Tbluserleverantors/`+'LoginLeverantor?email='+email+'&password='+password)
+      .get(`${constants.api}Tbluserbestallares/`+'LoginBuyer?email='+email+'&password='+password)
       
       
       .then(response => {

@@ -2,7 +2,7 @@ using order.Controllers;
 using order.Model;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +18,8 @@ builder.Services.AddScoped<ITbluserleverantorsController, TbluserleverantorsCont
 builder.Services.AddScoped<IleverantorsController, leverantorsController>();
 //builder.Services.AddSingleton<IVinylRepo, VinylRepo>();
 builder.Services.AddDbContext<orderContext>();
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 var app = builder.Build();
 

@@ -2,16 +2,17 @@ import React, {useEffect, useState, useContext} from 'react';
 import {Text, View, StyleSheet, TextInput} from 'react-native';
 import {Button} from 'react-native-elements';
 
-import {actionsproduct} from '../../features/product'
+import {actionsstore} from '../../features/store'
 import { useDispatch } from "react-redux";
 import { UserContext } from '../../configs/ProjectContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import styles from "./styles";
 
-const TarifferTimePeriod = ({navigation}) => {
+const Store = ({navigation}) => {
   
   
-  const [productName, setProductName] = useState("Product Name");
+  const [storeName, setStoreName] = useState("");
   const dispatch = useDispatch();
   const { userInfo, setUserInfo } = useContext(UserContext)
   const [userid,setUserId]=useState(0);
@@ -37,19 +38,19 @@ const TarifferTimePeriod = ({navigation}) => {
   return (
     <View>
       
-      <View style={styles.beside}>
-      <Text>Product Name</Text>
+      <View style={styless.beside}>
+      <Text>Store Name</Text>
         
-        <TextInput onChangeText={(text)=>setProductName(text)}>{productName}</TextInput>
+        <TextInput style={styles.input} placeholder="Store Name" onChangeText={(text)=>setStoreName(text)}>{storeName}</TextInput>
         
       </View>
       <Button
           title='Add'
           onPress={() => {
               //add this to the db
-              axios.post(`${constants.api}Tblitems`+'/AddProduct?productName='+productName+'&userid='+userid)
+              axios.post(`${constants.api}Tblstores?`+'userid='+userid,{"storename":storeName,"bestallareid":0})
             .then(response => {
-              dispatch(actionsproduct.addproduct({"id": 0,itemname:productName }));
+              dispatch(actionsstore.addstore({"id": 0,storename:storeName }));
               
             })
             .catch(error => {
@@ -64,7 +65,7 @@ const TarifferTimePeriod = ({navigation}) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styless = StyleSheet.create({
   button: {
     width: 200,
     marginTop: 10,
@@ -75,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TarifferTimePeriod;
+export default Store;

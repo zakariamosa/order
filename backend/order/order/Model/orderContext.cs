@@ -26,6 +26,7 @@ namespace order.Model
         public virtual DbSet<Tblstore> Tblstores { get; set; } = null!;
         public virtual DbSet<Tbluserbestallare> Tbluserbestallares { get; set; } = null!;
         public virtual DbSet<Tbluserleverantor> Tbluserleverantors { get; set; } = null!;
+        public virtual DbSet<VuBestallareStore> VuBestallareStores { get; set; } = null!;
         public virtual DbSet<VuLeverantorItem> VuLeverantorItems { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -47,6 +48,10 @@ namespace order.Model
 
                 entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
 
+                entity.Property(e => e.Itemeditedname)
+                    .HasMaxLength(300)
+                    .HasColumnName("itemeditedname");
+
                 entity.Property(e => e.Itemid).HasColumnName("itemid");
 
                 entity.Property(e => e.Itemtypeid).HasColumnName("itemtypeid");
@@ -56,13 +61,11 @@ namespace order.Model
                 entity.HasOne(d => d.Item)
                     .WithMany(p => p.Bestallareitems)
                     .HasForeignKey(d => d.Itemid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_bestallareitems_tblitem");
 
                 entity.HasOne(d => d.Itemtype)
                     .WithMany(p => p.Bestallareitems)
                     .HasForeignKey(d => d.Itemtypeid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_bestallareitems_tblitemtype");
 
                 entity.HasOne(d => d.Store)
@@ -128,7 +131,6 @@ namespace order.Model
                 entity.HasOne(d => d.Leverantor)
                     .WithMany(p => p.Tblitems)
                     .HasForeignKey(d => d.Leverantorid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tblitem_tblleverantor");
             });
 
@@ -258,7 +260,6 @@ namespace order.Model
                 entity.HasOne(d => d.Bestallare)
                     .WithMany(p => p.Tblstores)
                     .HasForeignKey(d => d.Bestallareid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tblstore_tblbestallare");
             });
 
@@ -294,6 +295,28 @@ namespace order.Model
                 entity.Property(e => e.Password)
                     .HasMaxLength(50)
                     .HasColumnName("password");
+            });
+
+            modelBuilder.Entity<VuBestallareStore>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("vuBestallareStores");
+
+                entity.Property(e => e.Bestallareid).HasColumnName("bestallareid");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Storeimage)
+                    .HasMaxLength(500)
+                    .HasColumnName("storeimage")
+                    .IsFixedLength();
+
+                entity.Property(e => e.Storename)
+                    .HasMaxLength(50)
+                    .HasColumnName("storename");
+
+                entity.Property(e => e.Userid).HasColumnName("userid");
             });
 
             modelBuilder.Entity<VuLeverantorItem>(entity =>

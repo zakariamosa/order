@@ -12,7 +12,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import Profile from './Profile'
-import ProductList from './ProductsScreen/ProductList'
+import StoreList from './StoresScreen/StoreList'
 
 
 import { useDispatch } from "react-redux";
@@ -111,10 +111,10 @@ function MyDrawer() {
             style={{ height: 35, width: "15%", alignSelf: "center" }}
           />)
       }} />
-      <Drawer.Screen name="Products" component={ProductList} options={{
+      <Drawer.Screen name="StoreList" component={StoreList} options={{
         drawerIcon: ({ focused, size }) => (
           <Image
-            source={require('../assets/images/products.png')}
+            source={require('../assets/images/store.png')}
             style={{ height: 35, width: "15%", alignSelf: "center" }}
           />)
       }} />

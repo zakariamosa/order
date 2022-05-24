@@ -4,21 +4,22 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Input, Button } from "react-native-elements";
 import constants from '../../configs/constants';
 import axios from 'axios';
-import {actionsproduct} from '../../features/product'
+import {actionsstore} from '../../features/store'
 import { useDispatch, useSelector } from "react-redux";
 import { UserContext } from '../../configs/ProjectContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 
-const ProductList = ({ navigation }) => {
-  const [product, setProduct]=useState([{}])
+const StoreList = ({ navigation }) => {
+  const [store, setStore]=useState([{}])
+ 
   const dispatch = useDispatch();
-  const getSavedProduct = useSelector(state => state.product);
+  const getSavedStore = useSelector(state => state.store);
   const { userInfo, setUserInfo } = useContext(UserContext)
   
-  const deleteProductFromAPI=(productid)=>{
-    console.log('this is the product id we want to delete from api', productid);
-    axios.delete(`${constants.api}Tblitems/`+productid)
+  const deleteStoreFromAPI=(Storeid)=>{
+    console.log('this is the store id we want to delete from api', Storeid);
+    axios.delete(`${constants.api}Tblstores/`+Storeid)
             .then(response => {
               
               
@@ -28,34 +29,7 @@ const ProductList = ({ navigation }) => {
               //console.log(error.message);
             });
   }
- /*  useEffect(() => {
-    console.log('userInfo id: ', userInfo.id);
-    AsyncStorage.getItem('currentUserCredentials').then((value) => {
-      console.log(value);
-      var stringify = JSON.parse(value);
-      console.log('stringify', stringify);
-      if (stringify !== null && stringify !== '') {
-        console.log('stringified id', stringify.id);
-        console.log('endpoint', `${constants.api}Tblitems/GetLeverantorsItemList/`+stringify.id);
-        
-        axios.get(`${constants.api}Tblitems/GetLeverantorsItemList/`+stringify.id)
-            .then(response => {
-              
-              console.log('this is the productlist: ', response.data);
-              dispatch(actionsproduct.getproduct(response.data))
-              setProduct(response.data);
-            })
-            .catch(error => {
-              console.log('here',error.response.request._response)
-              //console.log(error.message);
-            });
-      }
-    }).then(res => {
-      //do something else
-      
-    });
-    
-  }, []); */
+ 
   useFocusEffect(
     React.useCallback(() => {
       console.log('MMMMMMMMMMMMMMMMMMMMMMMMMMMMM'); 
@@ -66,12 +40,18 @@ const ProductList = ({ navigation }) => {
         if (stringify !== null && stringify !== '') {
          
           
-          axios.get(`${constants.api}Tblitems/GetLeverantorsItemList/`+stringify.id)
+          axios.get(`${constants.api}Tblstores/GetBestallareStores/`+stringify.id)
               .then(response => {
                 
+                console.log('response.data',response.data)
+                console.log('getSavedStore',getSavedStore)
+                  if(!getSavedStore.length){
+                  console.log('first load'); 
+                  dispatch(actionsstore.getstore(response.data))
+                } 
                 
+                setStore(response.data);
                 
-                setProduct(response.data);
               })
               .catch(error => {
                 console.log('here',error.response.request._response)
@@ -82,31 +62,19 @@ const ProductList = ({ navigation }) => {
         //do something else
         
       });
-    }, [getSavedProduct])
+    }, [getSavedStore])
   );
   useEffect(() => {
     
-    /* axios.get(`${constants.api}MainHubs/1`)
-            .then(response => {
-              
-              console.log('this is the tarifffffff: ', response.data.tariffs);
-              dispatch(actionsproduct.gettariff(response.data.tariffs))
-              setProduct(response.data.tariffs);
-            })
-            .catch(error => {
-              console.log(error.response.request._response)
-              //console.log(error.message);
-
-
-            }); */
-            if (getSavedProduct !== null) {
-              console.log('getSavedProduct: ', getSavedProduct);
+   
+            if (getSavedStore !== null) {
+              console.log('getSavedStore: ', getSavedStore);
             }
-  }, [getSavedProduct]);
+  }, [getSavedStore]);
   return (
     <View>
       <Button
-                title="Add a product"
+                title="Add a store"
                 buttonStyle={{ backgroundColor: 'rgba(214, 61, 57, 1)' }}
                 containerStyle={{
                   height: 40,
@@ -116,14 +84,15 @@ const ProductList = ({ navigation }) => {
                 }}
                 titleStyle={{ color: 'white', marginHorizontal: 20 }}
                 onPress={() => {
-                  navigation.navigate('Product')
+                  
+                  navigation.navigate('Store')
                 }}
                 />
       
       
       <ScrollView>
         <View>
-          {getSavedProduct.map((product) => {
+          {getSavedStore.map((store) => {
             return (
               <View style={[{
                 width: "90%", height: 40, alignSelf: "center",
@@ -131,12 +100,8 @@ const ProductList = ({ navigation }) => {
                 flexDirection: "row"
               },
               styles.shadow]}>
-                <Text>{product.itemname}</Text>
-                {/* <Text style={styles.dash}>-----</Text>
-                <Text>{tariff.endTime}</Text>
-                <Text style={styles.dash}>-----</Text>
-                <Text>{tariff.tariffValue} kw/h</Text>
-                <Text style={styles.dash}>-----</Text> */}
+                <Text>{store.storename}</Text>
+               
                 <Button 
                 title="X"
                 buttonStyle={{ backgroundColor: 'rgba(214, 61, 57, 1)' }}
@@ -149,9 +114,9 @@ const ProductList = ({ navigation }) => {
                 }}
                 titleStyle={{ color: 'white', marginHorizontal: 20 }}
                 onPress={()=>{
-                  console.log('this product id: ', product.id)
-                  deleteProductFromAPI(product.id);
-                  dispatch(actionsproduct.deleteproduct({"id": product.id}));
+                  console.log('this store id: ', store.id)
+                  deleteStoreFromAPI(store.id);
+                  dispatch(actionsstore.deletestore({"id": store.id}));
                 }}/>
               </View>
             );
@@ -174,4 +139,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default ProductList;
+export default StoreList;
