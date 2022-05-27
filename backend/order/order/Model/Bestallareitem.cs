@@ -6,7 +6,7 @@ namespace order.Model
     public partial class Bestallareitem
     {
         public long Id { get; set; }
-        public int Storeid { get; set; }
+        public int? Storeid { get; set; }
         public long? Itemid { get; set; }
         public decimal Amount { get; set; }
         public int? Itemtypeid { get; set; }
@@ -15,6 +15,6 @@ namespace order.Model
 
         public virtual Tblitem? Item { get; set; }
         public virtual Tblitemtype? Itemtype { get; set; }
-        public virtual Tblstore Store { get; set; } = null!;
+        public virtual Tblstore? Store { get; set; }
     }
 }

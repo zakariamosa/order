@@ -78,7 +78,6 @@ namespace order.Model
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Bestallareitems)
                     .HasForeignKey(d => d.Storeid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_bestallareitems_tblstore");
             });
 
