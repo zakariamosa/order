@@ -11,6 +11,7 @@ namespace order.Model
         public decimal Amount { get; set; }
         public int? Itemtypeid { get; set; }
         public string? Itemeditedname { get; set; }
+        public decimal? Increasingrate { get; set; }
 
         public virtual Tblitem? Item { get; set; }
         public virtual Tblitemtype? Itemtype { get; set; }

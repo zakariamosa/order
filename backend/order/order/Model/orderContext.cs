@@ -46,7 +46,14 @@ namespace order.Model
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+                entity.Property(e => e.Amount)
+                    .HasColumnType("decimal(18, 2)")
+                    .HasColumnName("amount");
+
+                entity.Property(e => e.Increasingrate)
+                    .HasColumnType("decimal(18, 2)")
+                    .HasColumnName("increasingrate")
+                    .HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Itemeditedname)
                     .HasMaxLength(300)

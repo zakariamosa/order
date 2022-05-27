@@ -156,5 +156,22 @@ namespace order.Controllers
 
             return tblitem;
         }
+        //GetAllItemsRelatedToSpecificLeverantor
+        [HttpGet("GetAllItemsRelatedToSpecificLeverantor/{leverantorid}")]
+        public async Task<ActionResult<List<Tblitem>>> GetAllItemsRelatedToSpecificLeverantor(int leverantorid)
+        {
+            if (_context.Tblitems == null)
+            {
+                return NotFound();
+            }
+            var tblItemsRelatedToLeverantor = await _context.Tblitems.Where(i=>i.Leverantorid== leverantorid).ToListAsync();
+
+            if (tblItemsRelatedToLeverantor == null)
+            {
+                return NotFound();
+            }
+
+            return tblItemsRelatedToLeverantor;
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace order.Controllers
         Task<ActionResult<Tblitem>> PostTblitem(Tblitem tblitem);
         Task<IActionResult> PutTblitem(long id, Tblitem tblitem);
         Task<IActionResult> AddProduct(string productName, int userid);
+        Task<ActionResult<List<Tblitem>>> GetAllItemsRelatedToSpecificLeverantor(int leverantorid);
     }
 }

@@ -45,10 +45,7 @@ const StoreList = ({ navigation }) => {
                 
                 console.log('response.data',response.data)
                 console.log('getSavedStore',getSavedStore)
-                  if(!getSavedStore.length){
-                  console.log('first load'); 
-                  dispatch(actionsstore.getstore(response.data))
-                } 
+                  
                 
                 setStore(response.data);
                 
@@ -71,6 +68,32 @@ const StoreList = ({ navigation }) => {
               console.log('getSavedStore: ', getSavedStore);
             }
   }, [getSavedStore]);
+  useEffect(() => {
+    AsyncStorage.getItem('currentUserCredentials').then((value) => {
+        
+      var stringify = JSON.parse(value);
+      console.log('stringify', stringify);
+      if (stringify !== null && stringify !== '') {
+       
+        
+        axios.get(`${constants.api}Tblstores/GetBestallareStores/`+stringify.id)
+            .then(response => {
+              
+              dispatch(actionsstore.getstore(response.data))
+              
+              setStore(response.data);
+              
+            })
+            .catch(error => {
+              console.log('here',error.response.request._response)
+              //console.log(error.message);
+            });
+      }
+    }).then(res => {
+      //do something else
+      
+    });
+}, []);
   return (
     <View>
       <Button
