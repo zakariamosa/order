@@ -125,7 +125,7 @@ const StoreProduct = ({navigation, route}) => {
 
   return (
     <View>
-      <Text>store id: {storeid}</Text>
+      
       <Text>Leverantor</Text>
       <View style={styless.container}>
         <Picker

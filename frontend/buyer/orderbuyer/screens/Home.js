@@ -17,6 +17,8 @@ import StoreProducts from './StoresScreen/StoreProducts'
 
 import { useDispatch } from "react-redux";
 
+import Order from './OrderScreen/Order'
+
 
 import axios from 'axios';
 import { Dimensions } from "react-native";
@@ -65,9 +67,7 @@ function Home({ navigation }) {
     <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
       
 
-      <View style={{ borderWidth: 1, margin: 10, borderRadius: 10, borderColor: "lightgray", height: 280 }}>
-        <Text>This is the Home</Text>
-      </View>
+      <Order/>
     </ScrollView>
   );
 }
