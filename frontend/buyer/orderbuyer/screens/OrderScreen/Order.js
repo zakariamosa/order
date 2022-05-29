@@ -10,13 +10,15 @@ import { UserContext } from '../../configs/ProjectContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import OrderStoreItemList from './OrderStoreItemList';
+import { useNavigation } from '@react-navigation/native';
 
-const Order = ({ navigation }) => {
+const Order = ({ navigation= useNavigation()}) => {
   const [store, setStore]=useState([{}])
  
   const dispatch = useDispatch();
   const getSavedStore = useSelector(state => state.store);
   const { userInfo, setUserInfo } = useContext(UserContext)
+  
   
   const deleteStoreFromAPI=(Storeid)=>{
     console.log('this is the store id we want to delete from api', Storeid);
@@ -141,7 +143,7 @@ const Order = ({ navigation }) => {
                   console.log('this store id: ', store.id);
                   //deleteStoreFromAPI(store.id);
                   //dispatch(actionsstore.deletestore({"id": store.id}));
-                  props.navigation.navigate('OrderStoreItemList');
+                  navigation.navigate('OrderStoreItemList', {storeid:store.id});
                 }}/>
               </View>
             );

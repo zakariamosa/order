@@ -17,7 +17,8 @@ import StoreProducts from './StoresScreen/StoreProducts'
 
 import { useDispatch } from "react-redux";
 
-import Order from './OrderScreen/Order'
+import Order from './OrderScreen/Order';
+import OrderStoreItemList from './OrderScreen/OrderStoreItemList';
 
 
 import axios from 'axios';

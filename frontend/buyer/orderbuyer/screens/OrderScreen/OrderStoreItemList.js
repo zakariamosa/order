@@ -8,17 +8,26 @@ import {actionsstoreproducts} from '../../features/storeproducts'
 import { Input, Button } from "react-native-elements";
 
 
-const OrderStoreItemList = ({ navigation }) => {
-  const [selectedStoreValue, setSelectedStoreValue] = useState('');
+const OrderStoreItemList = ({ navigation , route }) => {
+  
   const [storeList , setStoreList] = useState([]);
   const [userid , setUserId] = useState(0);
   const [product , setProduct] = useState([]);
   const getSavedStoreProducts = useSelector(state => state.storeproducts);
   const dispatch = useDispatch();
+  const [storeid, setStoreId] = useState(0);
 
   useEffect(() => {
     getStoreList();
   }, []);
+  useEffect(() => {
+    if (route.params) {
+      if (route.params.storeid) {
+        setStoreId(route.params.storeid);
+        fillTheStoreProducts(route.params.storeid);
+      }
+    }
+  }, [route.params]);
 
   const getStoreList = async () => {
     AsyncStorage.getItem('currentUserCredentials').then((value) => {
@@ -50,24 +59,9 @@ const OrderStoreItemList = ({ navigation }) => {
 
   };
 
-  const deleteStoreProductFromAPI=(StoreProductid)=>{
-    console.log('this is the storeproduct id we want to delete from api', StoreProductid);
-    axios.delete(`${constants.api}Bestallareitems/`+StoreProductid)
-            .then(response => {
-              
-              
-            })
-            .catch(error => {
-              console.log('here',error.response.request._response)
-              //console.log(error.message);
-            });
-  }
 
-  const renderStoreList = () => {
-    return storeList.map((store) => {
-      return <Picker.Item label={store.storename} value={store.id} />
-    })
-  }
+
+  
   const fillTheStoreProducts = (storeid) => {
     axios.get(`${constants.api}Bestallareitems/GetBestallareStoreItems/`+storeid)
               .then(response => {
@@ -88,35 +82,8 @@ const OrderStoreItemList = ({ navigation }) => {
 
   return (
     <View>
-    <View style={styles.container}>
-      <Picker
-        selectedValue={selectedStoreValue}
-        style={{height: 40, width: 350}}
-        onValueChange={(itemValue, itemIndex) => {
-          setSelectedStoreValue(itemValue);
-          fillTheStoreProducts(itemValue);
-        }}
-        
-      >
-        {renderStoreList()}
-
-      </Picker>
-    </View>
-    <Button
-                title="Add a product to this store"
-                buttonStyle={{ backgroundColor: 'rgba(214, 61, 57, 1)' }}
-                containerStyle={{
-                  height: 40,
-                  width: 300,
-                  marginHorizontal: 50,
-                  marginVertical: 10,
-                }}
-                titleStyle={{ color: 'white', marginHorizontal: 20 }}
-                onPress={() => {
-                  
-                  navigation.navigate('StoreProduct', {storeid:selectedStoreValue});
-                }}
-                />
+    
+    
     <ScrollView>
         <View>
           {getSavedStoreProducts.map((product) => {
@@ -130,8 +97,25 @@ const OrderStoreItemList = ({ navigation }) => {
                 <Text>{product.itemeditedname}</Text>
                
                 <Button 
-                title="X"
+                title="-"
                 buttonStyle={{ backgroundColor: 'rgba(214, 61, 57, 1)' }}
+                containerStyle={{
+                  height: 40,
+                  width: 60,
+                  right: 150,
+                  position: 'absolute',
+                  borderRadius: 10
+                }}
+                titleStyle={{ color: 'white', marginHorizontal: 20 }}
+                onPress={()=>{
+                  console.log('this product id: ', product.id)
+                  
+                  //dispatch(actionsstoreproducts.deletestoreproduct({"id": product.id}));
+                }}/>
+                <Text style={{position: 'absolute', right: 110, color:'blue'}}>{product.amount}</Text>
+                <Button 
+                title="+"
+                buttonStyle={{ backgroundColor: 'rgba(0,128,0,0.9)' }}
                 containerStyle={{
                   height: 40,
                   width: 60,
@@ -142,8 +126,8 @@ const OrderStoreItemList = ({ navigation }) => {
                 titleStyle={{ color: 'white', marginHorizontal: 20 }}
                 onPress={()=>{
                   console.log('this product id: ', product.id)
-                  deleteStoreProductFromAPI(product.id);
-                  dispatch(actionsstoreproducts.deletestoreproduct({"id": product.id}));
+                  product.amount=product.amount+product.increasingrate;
+                  //dispatch(actionsstoreproducts.deletestoreproduct({"id": product.id}));
                 }}/>
               </View>
             );

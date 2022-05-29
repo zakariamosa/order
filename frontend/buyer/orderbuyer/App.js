@@ -11,7 +11,9 @@ import { ProjectContextProvider } from "./configs/ProjectContext";
 import HomeScreen from "./screens/Home";
 import StoreList from './screens/StoresScreen/StoreList';
 import Store from './screens/StoresScreen/Store';
-import StoreProduct from "./screens/StoresScreen/StoreProduct"
+import StoreProduct from "./screens/StoresScreen/StoreProduct";
+import Order from './screens/OrderScreen/Order';
+import OrderStoreItemList from './screens/OrderScreen/OrderStoreItemList';
 
 
 
@@ -35,6 +37,8 @@ export default function App() {
           <AuthStackNavigation.Screen name="StoreList" component={StoreList} />
           <AuthStackNavigation.Screen name="Store" component={Store} />
           <AuthStackNavigation.Screen name="StoreProduct" component={StoreProduct} />
+          <AuthStackNavigation.Screen name="Order" component={Order} />
+          <AuthStackNavigation.Screen name="OrderStoreItemList" component={OrderStoreItemList} />
             </AuthStackNavigation.Navigator>
         </NavigationContainer>
       </Provider>
