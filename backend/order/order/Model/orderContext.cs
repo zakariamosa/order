@@ -210,13 +210,11 @@ namespace order.Model
                 entity.HasOne(d => d.Bestallare)
                     .WithMany(p => p.Tblorders)
                     .HasForeignKey(d => d.Bestallareid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tblorder_tblbestallare");
 
                 entity.HasOne(d => d.Bestallareuser)
                     .WithMany(p => p.Tblorders)
                     .HasForeignKey(d => d.Bestallareuserid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tblorder_tbluserbestallare");
             });
 
@@ -237,13 +235,11 @@ namespace order.Model
                 entity.HasOne(d => d.Item)
                     .WithMany(p => p.Tblorderdetails)
                     .HasForeignKey(d => d.Itemid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tblorderdetails_tblitem");
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.Tblorderdetails)
                     .HasForeignKey(d => d.Orderid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tblorderdetails_tblorder");
             });
 
