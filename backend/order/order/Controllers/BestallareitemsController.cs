@@ -135,5 +135,21 @@ namespace order.Controllers
 
             return tblstoreItems;
         }
+        [HttpGet("GetBestallareStoreItemsWithType/{storeid}")]
+        public async Task<ActionResult<List<VuBestallareStoreItem>>> GetBestallareStoreItemsWithType(int storeid)
+        {
+            if (_context.VuBestallareStoreItems == null)
+            {
+                return NotFound();
+            }
+            var vustoreItems = await _context.VuBestallareStoreItems.Where(bi => bi.Storeid == storeid).ToListAsync();
+
+            if (vustoreItems == null)
+            {
+                return NotFound();
+            }
+
+            return vustoreItems;
+        }
     }
 }

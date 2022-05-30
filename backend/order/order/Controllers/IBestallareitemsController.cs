@@ -11,5 +11,6 @@ namespace order.Controllers
         Task<ActionResult<Bestallareitem>> PostBestallareitem(Bestallareitem bestallareitem);
         Task<IActionResult> PutBestallareitem(long id, Bestallareitem bestallareitem);
         Task<ActionResult<List<Bestallareitem>>> GetBestallareStoreItems(int storeid);
+        Task<ActionResult<List<VuBestallareStoreItem>>> GetBestallareStoreItemsWithType(int storeid);
     }
 }

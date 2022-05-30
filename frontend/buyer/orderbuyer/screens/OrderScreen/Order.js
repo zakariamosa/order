@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import OrderStoreItemList from './OrderStoreItemList';
 import { useNavigation } from '@react-navigation/native';
+import {actionsstoreproducts} from '../../features/storeproducts';
 
 const Order = ({ navigation= useNavigation()}) => {
   const [store, setStore]=useState([{}])
@@ -32,7 +33,7 @@ const Order = ({ navigation= useNavigation()}) => {
               //console.log(error.message);
             });
   }
- 
+ /*
   useFocusEffect(
     React.useCallback(() => {
       console.log('MMMMMMMMMMMMMMMMMMMMMMMMMMMMM'); 
@@ -51,6 +52,12 @@ const Order = ({ navigation= useNavigation()}) => {
                   
                 
                 setStore(response.data);
+                //here i need to fill the redux state with all the products inside each store
+                dispatch(actionsstoreproducts.resetstoreproducts());
+                response.data.map(userstore=>{
+                  console.log('userstore.id',userstore.id)
+                  fillTheStoreProducts(userstore.id);
+                });
                 
               })
               .catch(error => {
@@ -63,13 +70,60 @@ const Order = ({ navigation= useNavigation()}) => {
         
       });
     }, [getSavedStore])
-  );
+  );*/
+  const fillTheStoreProducts = storeid => {
+    axios
+      .get(
+        `${constants.api}Bestallareitems/GetBestallareStoreItemsWithType/` +
+          storeid,
+      )
+      .then(response => {
+        console.log('response.data', response.data);
+
+        dispatch(actionsstoreproducts.addstoreproducts(response.data));
+
+        
+      })
+      .catch(error => {
+        console.log('here', error.response.request._response);
+        //console.log(error.message);
+      });
+  };
   useEffect(() => {
     
    
-            if (getSavedStore !== null) {
-              console.log('getSavedStore: ', getSavedStore);
-            }
+    AsyncStorage.getItem('currentUserCredentials').then((value) => {
+        
+      var stringify = JSON.parse(value);
+      console.log('stringify', stringify);
+      if (stringify !== null && stringify !== '') {
+       
+        
+        axios.get(`${constants.api}Tblstores/GetBestallareStores/`+stringify.id)
+            .then(response => {
+              
+              console.log('response.data',response.data)
+              console.log('getSavedStore',getSavedStore)
+                
+              
+              setStore(response.data);
+              //here i need to fill the redux state with all the products inside each store
+              dispatch(actionsstoreproducts.resetstoreproducts());
+              response.data.map(userstore=>{
+                console.log('userstore.id',userstore.id)
+                fillTheStoreProducts(userstore.id);
+              });
+              
+            })
+            .catch(error => {
+              console.log('here',error.response.request._response)
+              //console.log(error.message);
+            });
+      }
+    }).then(res => {
+      //do something else
+      
+    });
   }, [getSavedStore]);
   useEffect(() => {
     AsyncStorage.getItem('currentUserCredentials').then((value) => {
@@ -101,7 +155,7 @@ const Order = ({ navigation= useNavigation()}) => {
     <View>
       <Button
                 title="Place the order"
-                buttonStyle={{ backgroundColor: 'rgba(214, 61, 57, 1)' }}
+                buttonStyle={{ backgroundColor: 'rgba(11, 156, 49, 1)' }}
                 containerStyle={{
                   height: 40,
                   width: 200,

@@ -27,6 +27,7 @@ namespace order.Model
         public virtual DbSet<Tbluserbestallare> Tbluserbestallares { get; set; } = null!;
         public virtual DbSet<Tbluserleverantor> Tbluserleverantors { get; set; } = null!;
         public virtual DbSet<VuBestallareStore> VuBestallareStores { get; set; } = null!;
+        public virtual DbSet<VuBestallareStoreItem> VuBestallareStoreItems { get; set; } = null!;
         public virtual DbSet<VuLeverantorItem> VuLeverantorItems { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -323,6 +324,39 @@ namespace order.Model
                     .HasColumnName("storename");
 
                 entity.Property(e => e.Userid).HasColumnName("userid");
+            });
+
+            modelBuilder.Entity<VuBestallareStoreItem>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("vuBestallareStoreItems");
+
+                entity.Property(e => e.Amount)
+                    .HasColumnType("decimal(18, 2)")
+                    .HasColumnName("amount");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Increasingrate)
+                    .HasColumnType("decimal(18, 2)")
+                    .HasColumnName("increasingrate");
+
+                entity.Property(e => e.Itemeditedname)
+                    .HasMaxLength(300)
+                    .HasColumnName("itemeditedname");
+
+                entity.Property(e => e.Itemid).HasColumnName("itemid");
+
+                entity.Property(e => e.Itemtypeid).HasColumnName("itemtypeid");
+
+                entity.Property(e => e.Selected).HasColumnName("selected");
+
+                entity.Property(e => e.Storeid).HasColumnName("storeid");
+
+                entity.Property(e => e.Typename)
+                    .HasMaxLength(50)
+                    .HasColumnName("typename");
             });
 
             modelBuilder.Entity<VuLeverantorItem>(entity =>
