@@ -13,7 +13,7 @@ import {
 } from '@react-navigation/drawer';
 import Profile from './Profile'
 import ProductList from './ProductsScreen/ProductList'
-
+import Order from './OrderScreen/Order'
 
 import { useDispatch } from "react-redux";
 
@@ -65,9 +65,7 @@ function Home({ navigation }) {
     <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
       
 
-      <View style={{ borderWidth: 1, margin: 10, borderRadius: 10, borderColor: "lightgray", height: 280 }}>
-        <Text>This is the Home</Text>
-      </View>
+      <Order/>
     </ScrollView>
   );
 }

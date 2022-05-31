@@ -29,6 +29,8 @@ namespace order.Model
         public virtual DbSet<VuBestallareStore> VuBestallareStores { get; set; } = null!;
         public virtual DbSet<VuBestallareStoreItem> VuBestallareStoreItems { get; set; } = null!;
         public virtual DbSet<VuLeverantorItem> VuLeverantorItems { get; set; } = null!;
+        public virtual DbSet<VuOrderDetailsRelatedToLeverantor> VuOrderDetailsRelatedToLeverantors { get; set; } = null!;
+        public virtual DbSet<VuOrdersRelatedToLeverantor> VuOrdersRelatedToLeverantors { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -373,6 +375,88 @@ namespace order.Model
                     .HasColumnName("itemname");
 
                 entity.Property(e => e.Userid).HasColumnName("userid");
+            });
+
+            modelBuilder.Entity<VuOrderDetailsRelatedToLeverantor>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("vuOrderDetailsRelatedToLeverantor");
+
+                entity.Property(e => e.Amount)
+                    .HasColumnType("decimal(18, 2)")
+                    .HasColumnName("amount");
+
+                entity.Property(e => e.Bestallareaddress)
+                    .HasMaxLength(50)
+                    .HasColumnName("bestallareaddress");
+
+                entity.Property(e => e.Bestallarename)
+                    .HasMaxLength(50)
+                    .HasColumnName("bestallarename");
+
+                entity.Property(e => e.Bestallaretelefon)
+                    .HasMaxLength(50)
+                    .HasColumnName("bestallaretelefon");
+
+                entity.Property(e => e.Closed).HasColumnName("closed");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.Isready).HasColumnName("isready");
+
+                entity.Property(e => e.Itemname)
+                    .HasMaxLength(300)
+                    .HasColumnName("itemname");
+
+                entity.Property(e => e.Leverantoruserid).HasColumnName("leverantoruserid");
+
+                entity.Property(e => e.Orderdate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("orderdate");
+
+                entity.Property(e => e.Orderid).HasColumnName("orderid");
+
+                entity.Property(e => e.Typename)
+                    .HasMaxLength(50)
+                    .HasColumnName("typename");
+            });
+
+            modelBuilder.Entity<VuOrdersRelatedToLeverantor>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("vuOrdersRelatedToLeverantor");
+
+                entity.Property(e => e.Bestallareaddress)
+                    .HasMaxLength(50)
+                    .HasColumnName("bestallareaddress");
+
+                entity.Property(e => e.Bestallarename)
+                    .HasMaxLength(50)
+                    .HasColumnName("bestallarename");
+
+                entity.Property(e => e.Bestallaretelefon)
+                    .HasMaxLength(50)
+                    .HasColumnName("bestallaretelefon");
+
+                entity.Property(e => e.Closed).HasColumnName("closed");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.Isready).HasColumnName("isready");
+
+                entity.Property(e => e.Leverantoruserid).HasColumnName("leverantoruserid");
+
+                entity.Property(e => e.Orderdate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("orderdate");
+
+                entity.Property(e => e.Orderid).HasColumnName("orderid");
             });
 
             OnModelCreatingPartial(modelBuilder);

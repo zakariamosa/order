@@ -10,6 +10,7 @@ import { rootReducer } from './features/rootReducer';
 import { ProjectContextProvider } from "./configs/ProjectContext";
 import HomeScreen from "./screens/Home";
 import Product from './screens/ProductsScreen/Product';
+import OrderDetails from "./screens/OrderScreen/OrderDetails"
 
 
 
@@ -31,6 +32,7 @@ export default function App() {
               //HomeDrawer: DrawerNav,
             })} />
           <AuthStackNavigation.Screen name="Product" component={Product} />
+          <AuthStackNavigation.Screen name="OrderDetails" component={OrderDetails} />
             </AuthStackNavigation.Navigator>
         </NavigationContainer>
       </Provider>

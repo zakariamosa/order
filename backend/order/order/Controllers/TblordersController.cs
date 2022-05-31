@@ -31,6 +31,30 @@ namespace order.Controllers
             return await _context.Tblorders.ToListAsync();
         }
 
+        // GET: api/VuOrdersRelatedToLeverantor
+        [HttpGet("GetTblordersRelatedToBuyer/{userleverantorid}")]
+        public async Task<ActionResult<IEnumerable<VuOrdersRelatedToLeverantor>>> GetTblordersRelatedToBuyer(int userleverantorid)
+        {
+            if (_context.VuOrdersRelatedToLeverantors.Where(o=>o.Leverantoruserid== userleverantorid) == null)
+            {
+                return NotFound();
+            }
+            
+            return await _context.VuOrdersRelatedToLeverantors.Where(o => o.Leverantoruserid == userleverantorid).ToListAsync();
+        }
+
+        // GET: api/Tblorders
+        [HttpGet("GetOrderDetailsRelatedToLeverantor/{userleverantorid}")]
+        public async Task<ActionResult<IEnumerable<VuOrderDetailsRelatedToLeverantor>>> GetOrderDetailsRelatedToLeverantor(int userleverantorid , Int64 orderid)
+        {
+            if (_context.VuOrderDetailsRelatedToLeverantors.Where(o => o.Leverantoruserid == userleverantorid&&o.Orderid== orderid) == null)
+            {
+                return NotFound();
+            }
+
+            return await _context.VuOrderDetailsRelatedToLeverantors.Where(o => o.Leverantoruserid == userleverantorid && o.Orderid == orderid).ToListAsync();
+        }
+
         // GET: api/Tblorders/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Tblorder>> GetTblorder(long id)
