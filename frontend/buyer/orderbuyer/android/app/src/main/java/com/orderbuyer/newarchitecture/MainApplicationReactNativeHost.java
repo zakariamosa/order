@@ -1,4 +1,4 @@
-package com.orderseller.newarchitecture;
+package com.orderbuyer.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.orderseller.BuildConfig;
-import com.orderseller.newarchitecture.components.MainComponentsRegistry;
-import com.orderseller.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.orderbuyer.BuildConfig;
+import com.orderbuyer.newarchitecture.components.MainComponentsRegistry;
+import com.orderbuyer.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

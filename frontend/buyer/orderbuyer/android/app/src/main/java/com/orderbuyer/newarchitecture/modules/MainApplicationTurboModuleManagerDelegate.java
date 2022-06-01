@@ -1,4 +1,4 @@
-package com.orderseller.newarchitecture.modules;
+package com.orderbuyer.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

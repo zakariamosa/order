@@ -1,4 +1,4 @@
-package com.orderseller.newarchitecture.components;
+package com.orderbuyer.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
