@@ -11,7 +11,7 @@ import axios from 'axios';
 const TarifferTimePeriod = ({navigation}) => {
   
   
-  const [productName, setProductName] = useState("Product Name");
+  const [productName, setProductName] = useState("");
   const dispatch = useDispatch();
   const { userInfo, setUserInfo } = useContext(UserContext)
   const [userid,setUserId]=useState(0);
@@ -40,7 +40,11 @@ const TarifferTimePeriod = ({navigation}) => {
       <View style={styles.beside}>
       <Text>Product Name</Text>
         
-        <TextInput onChangeText={(text)=>setProductName(text)}>{productName}</TextInput>
+        <TextInput 
+        placeholder="Product Name"
+        style={styles.input}
+        onChangeText={(text)=>setProductName(text)}
+        >{productName}</TextInput>
         
       </View>
       <Button
@@ -72,6 +76,12 @@ const styles = StyleSheet.create({
   beside: {
     flexDirection: 'row',
     padding: 5,
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
 });
 

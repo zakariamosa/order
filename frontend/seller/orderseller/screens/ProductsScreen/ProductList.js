@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 
 const ProductList = ({ navigation }) => {
-  const [product, setProduct]=useState([{}])
+  const [products, setProducts]=useState([{}])
   const dispatch = useDispatch();
   const getSavedProduct = useSelector(state => state.product);
   const { userInfo, setUserInfo } = useContext(UserContext)
@@ -43,7 +43,7 @@ const ProductList = ({ navigation }) => {
               
               console.log('this is the productlist: ', response.data);
               dispatch(actionsproduct.getproduct(response.data))
-              setProduct(response.data);
+              setProducts(response.data);
             })
             .catch(error => {
               console.log('here',error.response.request._response)
@@ -71,7 +71,7 @@ const ProductList = ({ navigation }) => {
                 
                 
                 
-                setProduct(response.data);
+                setProducts(response.data);
               })
               .catch(error => {
                 console.log('here',error.response.request._response)
@@ -86,19 +86,7 @@ const ProductList = ({ navigation }) => {
   );
   useEffect(() => {
     
-    /* axios.get(`${constants.api}MainHubs/1`)
-            .then(response => {
-              
-              console.log('this is the tarifffffff: ', response.data.tariffs);
-              dispatch(actionsproduct.gettariff(response.data.tariffs))
-              setProduct(response.data.tariffs);
-            })
-            .catch(error => {
-              console.log(error.response.request._response)
-              //console.log(error.message);
-
-
-            }); */
+   
             if (getSavedProduct !== null) {
               console.log('getSavedProduct: ', getSavedProduct);
             }
@@ -120,10 +108,10 @@ const ProductList = ({ navigation }) => {
                 }}
                 />
       
-      
+      <View style={{height: 580}}>
       <ScrollView>
         <View>
-          {getSavedProduct.map((product) => {
+          {products.map((product) => {
             return (
               <View style={[{
                 width: "90%", height: 40, alignSelf: "center",
@@ -158,7 +146,7 @@ const ProductList = ({ navigation }) => {
           })}
         </View>
       </ScrollView>
-      
+      </View>
     </View>
   );
  

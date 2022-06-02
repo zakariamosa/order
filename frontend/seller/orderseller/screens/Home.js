@@ -95,7 +95,7 @@ function MyDrawer() {
     <Drawer.Navigator
     //drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
-      <Drawer.Screen name="HomeScreen" component={Home} options={{
+      <Drawer.Screen name="Orders" component={Home} options={{
         drawerIcon: ({ focused, size }) => (
           <Image
             source={require('../assets/images/icon/home.png')}

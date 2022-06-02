@@ -7,7 +7,7 @@ const Profile = ({ navigation }) => {
 
   return (
     <View>
-      <Text>This is the Profile Screen</Text>
+      
       <Button
         title="Sign out"
         style={styles.button}

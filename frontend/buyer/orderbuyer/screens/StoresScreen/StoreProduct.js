@@ -132,6 +132,7 @@ const StoreProduct = ({navigation, route}) => {
           selectedValue={selectedLeverantorValue}
           style={{height: 40, width: 350}}
           onValueChange={(itemValue, itemIndex) => {
+            console.log('edited name itemValue',itemValue);
             setSelectedLeverantorValue(itemValue);
             fillLeverantorProductList(itemValue);
           }}>
@@ -144,11 +145,14 @@ const StoreProduct = ({navigation, route}) => {
           selectedValue={selectedProduct}
           style={{height: 40, width: 350}}
           onValueChange={(productValue, productIndex) => {
+            console.log('edited name productValue',productValue);
+            console.log('edited name productIndex',productIndex);
             setSelectedProduct(productValue);
 
             setproductcustomizedname(
               leverantorProductList[productIndex].itemname,
             );
+            console.log('edited name',leverantorProductList[productIndex].itemname);
             fillProductTypesList();
           }}>
           {renderLeverantorProductList()}

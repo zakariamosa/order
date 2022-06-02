@@ -6,6 +6,7 @@ import {
   TextInput,
   StyleSheet,
   ScrollView,
+  Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Input, Button} from 'react-native-elements';
@@ -36,6 +37,18 @@ const Order = ({navigation = useNavigation()}) => {
     
     axios
       .get(`${constants.api}Tblorders/GetTblordersRelatedToBuyer/` + userId)
+      .then(response => {
+        setOrders(response.data);
+      })
+      .catch(error => {
+        console.log('here', error.response.request._response);
+        //console.log(error.message);
+      });
+  };
+  const getordersfromapiinitialization = (theuserid) => {
+    
+    axios
+      .get(`${constants.api}Tblorders/GetTblordersRelatedToBuyer/` + theuserid)
       .then(response => {
         setOrders(response.data);
       })
@@ -141,7 +154,7 @@ const Order = ({navigation = useNavigation()}) => {
         console.log('stringify', stringify);
         if (stringify !== null && stringify !== '') {
           setUserId(stringify.id);
-          getordersfromapi();
+          getordersfromapiinitialization(stringify.id);
         }
       })
       .then(res => {
@@ -150,21 +163,12 @@ const Order = ({navigation = useNavigation()}) => {
   }, []);
   return (
     <View>
-      <Button
-        title="Reload"
-        buttonStyle={{backgroundColor: 'rgba(11, 156, 49, 1)'}}
-        containerStyle={{
-          height: 40,
-          width: 200,
-          marginHorizontal: 50,
-          marginVertical: 10,
-        }}
-        titleStyle={{color: 'white', marginHorizontal: 20}}
-        onPress={() => {
-          getordersfromapi();
-          //navigation.navigate('Store')
-        }}
-      />
+      <View style={styles.container}>
+      <TouchableOpacity style={styles.button} onPress={()=>{ getordersfromapi();}}>
+          <Image source={require("../../assets/images/reload.png")}/>
+        </TouchableOpacity>
+        </View>
+      
 
       <ScrollView>
         <View>
@@ -184,21 +188,26 @@ const Order = ({navigation = useNavigation()}) => {
                   },
                   styles.shadow,
                 ]}>
-                <Text>{o.bestallarename}</Text>
-                
-                <Text>{Moment(o.orderdate).format("DD MM hh:mm")}</Text>
-                <Text>//{o.orderid}</Text>
+                  <View style={styles.buyer}>
+                <Text style={{ color:'rgba(255, 231, 122, 1)', fontSize: 16 }}>{o.bestallarename}</Text>
+                </View>
+                <View style={styles.orderdate}>
+                <Text style={{ color:'rgba(58, 107, 53, 1)', fontSize: 16 }}>{Moment(o.orderdate).format("DD MM hh:mm")}</Text>
+                </View>
+                <View style={styles.orderid}>
+                <Text style={{ color:'rgba(58, 107, 53, 1)', fontSize: 16 }}>//{o.orderid}</Text>
+                </View>
                 <Button
                   title="*"
                   buttonStyle={{backgroundColor: 'rgba(214, 61, 57, 1)'}}
                   containerStyle={{
                     height: 40,
-                    width: 60,
+                    width: 30,
                     right: 10,
                     position: 'absolute',
                     borderRadius: 10,
                   }}
-                  titleStyle={{color: 'white', marginHorizontal: 20}}
+                  titleStyle={{color: 'white', marginHorizontal: 0}}
                   onPress={() => {
                     console.log('this order id: ', o.orderid);
                     //deleteStoreFromAPI(o.id);
@@ -224,6 +233,45 @@ const styles = StyleSheet.create({
   dash: {
     marginTop: 15,
   },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+},
+  buyer: {
+    
+    backgroundColor: 'rgba(58, 107, 53, 1)'
+},
+  orderdate: {
+    
+    backgroundColor: 'rgba(203, 209, 143, 1)',
+},
+orderid: {
+    
+    backgroundColor: 'rgba(227, 180, 72, 1)',
+},
+button: {
+  backgroundColor: '#859a9b',
+  borderRadius: 20,
+  padding: 10,
+  marginBottom: 20,
+  shadowColor: '#303838',
+  shadowOffset: { width: 0, height: 5 },
+  shadowRadius: 10,
+  shadowOpacity: 0.35
+},
+container: {
+  flex: 1,
+  backgroundColor: '#fff',
+  alignItems: 'center',
+  justifyContent: 'center',
+},
 });
 
 export default Order;
