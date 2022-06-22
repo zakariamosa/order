@@ -155,7 +155,7 @@ const OrderStoreItemList = ({navigation, route}) => {
                     );
                   }}
                 />
-                <View style={{position: 'absolute', right: 5, color: 'blue'}}>
+                <View style={{position: 'absolute', right: 7, color: 'blue'}}>
                 <CheckBox
                   style={{flex: 1, padding: 10}}
                   onClick={() => {

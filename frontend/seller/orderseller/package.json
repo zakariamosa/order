@@ -16,6 +16,7 @@
     "@reduxjs/toolkit": "^1.8.1",
     "axios": "^0.27.2",
     "moment": "^2.29.3",
+    "pod-install": "^0.1.36",
     "react": "17.0.2",
     "react-native": "0.68.2",
     "react-native-elements": "^3.4.2",

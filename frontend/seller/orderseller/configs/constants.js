@@ -1,4 +1,4 @@
 
 export default constants = {
-    api: "http://192.168.0.206:45455/api/"
+    api: "http://213.89.153.206:8083/api/"
 }
