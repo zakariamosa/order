@@ -92,7 +92,7 @@ const OrderStoreItemList = ({navigation, route}) => {
                 style={[
                   {
                     width: '90%',
-                    height: 40,
+                    height: 70,
                     alignSelf: 'center',
                     marginVertical: 5,
                     backgroundColor: 'white',
@@ -111,6 +111,7 @@ const OrderStoreItemList = ({navigation, route}) => {
                     height: 40,
                     width: 30,
                     right: 200,
+                    top:30,
                     position: 'absolute',
                     borderRadius: 10,
                   }}
@@ -127,10 +128,10 @@ const OrderStoreItemList = ({navigation, route}) => {
                     );
                   }}
                 />
-                <Text style={{position: 'absolute', right: 175, color: 'blue'}}>
+                <Text style={{position: 'absolute', right: 165, color: 'blue', top:35}}>
                   {product.amount}
                 </Text>
-                <Text style={{position: 'absolute', right: 120, color: 'blue'}}>
+                <Text style={{position: 'absolute', right: 110, color: 'blue', top:35}}>
                   {product.typename}
                 </Text>
                 <Button
@@ -140,6 +141,7 @@ const OrderStoreItemList = ({navigation, route}) => {
                     height: 40,
                     width: 30,
                     right: 60,
+                    top:30,
                     position: 'absolute',
                     borderRadius: 10,
                   }}
@@ -157,7 +159,7 @@ const OrderStoreItemList = ({navigation, route}) => {
                 />
                 <View style={{position: 'absolute', right: 7, color: 'blue'}}>
                 <CheckBox
-                  style={{flex: 1, padding: 10}}
+                  style={{flex: 1, padding: 10, top:30}}
                   onClick={() => {
                     dispatch(
                       actionsstoreproducts.selectstoreproduct({

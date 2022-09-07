@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, ScrollView, TouchableOpacity, Image, Clipboard} from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -34,6 +34,18 @@ const OrderDetails = ({navigation, route}) => {
     }
   }, [route.params]);
 
+  
+  const [copiedText, setCopiedText] = useState('')
+
+  const copyToClipboard = () => {
+    Clipboard.setString('');
+    setCopiedText('');
+    var mytxt='';
+    orderdetails.map(product => {
+      mytxt+='\n'+product.itemname+'  '+product.amount+'  '+ product.typename;
+    });
+    Clipboard.setString(mytxt);
+  }
   const getOrderDetails = async () => {
     AsyncStorage.getItem('currentUserCredentials')
       .then(value => {
@@ -83,6 +95,11 @@ const OrderDetails = ({navigation, route}) => {
 
   return (
     <View>
+      <View style={styles.copybuttoncontainer}>
+      <TouchableOpacity style={styles.button} onPress={()=>{ copyToClipboard();}}>
+          <Image source={require("../../assets/images/copy.jpg")}/>
+        </TouchableOpacity>
+        </View>
       <ScrollView>
         <View>
           {orderdetails.map(product => {
@@ -101,9 +118,9 @@ const OrderDetails = ({navigation, route}) => {
                   },
                   styles.shadow,
                 ]}>
-                <Text>{product.itemname} ------</Text>
-                <Text>{product.amount}------</Text>
-                <Text>{product.typename}</Text>
+                <Text>{product.itemname}</Text>
+                <Text>---{product.amount}</Text>
+                <Text>---{product.typename}</Text>
 
                 
                
@@ -124,6 +141,22 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 1,
+  },
+  copybuttoncontainer: {
+    flex: 0,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    backgroundColor: '#859a9b',
+    borderRadius: 20,
+    padding: 10,
+    marginBottom: 20,
+    shadowColor: '#303838',
+    shadowOffset: { width: 0, height: 5 },
+    shadowRadius: 10,
+    shadowOpacity: 0.35,
   },
 });
 
